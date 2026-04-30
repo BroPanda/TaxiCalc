@@ -164,6 +164,19 @@
     <script>
         // Ініціалізація іконок
         lucide.createIcons();
+
+        // Реєстрація Service Worker для PWA (offline підтримка та встановлення APK)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker зареєстровано успішно:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Помилка реєстрації ServiceWorker:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
