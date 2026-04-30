@@ -1,0 +1,334 @@
+:root {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-input: #0f172a;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --border-color: #334155;
+    --nav-bg: rgba(30, 41, 59, 0.9);
+    --green: #10b981;
+    --red: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 600px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.app-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+}
+
+.app-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    padding-bottom: 120px; /* Місце для футера і навігації */
+}
+
+.view {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border-color);
+}
+
+.card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.label-row label {
+    margin-bottom: 0;
+}
+
+.info-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--accent);
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.info-icon:active {
+    opacity: 1;
+}
+
+/* Tooltip Styles */
+.info-icon-wrapper {
+    position: relative;
+    display: inline-block;
+    outline: none; /* Remove focus ring */
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #f8fafc; /* Світлий фон */
+    color: #0f172a; /* Темний текст */
+    text-align: left;
+    border-radius: 8px;
+    padding: 10px 12px;
+    position: absolute;
+    z-index: 100;
+    bottom: 150%; 
+    right: -10px; /* Зміщення для вирівнювання з іконкою */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.2s, visibility 0.2s;
+    pointer-events: none;
+}
+
+/* Стрілочка вниз */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 14px; 
+    border-width: 6px;
+    border-style: solid;
+    border-color: #f8fafc transparent transparent transparent;
+}
+
+/* Показуємо при наведенні (ПК) або при кліку/фокусі (Мобільні) */
+.info-icon-wrapper:hover .tooltip-text,
+.info-icon-wrapper:focus .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.input-group small {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: white;
+    margin-top: 10px;
+}
+
+.btn-primary:active {
+    background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    margin-top: 10px;
+}
+
+.btn-secondary:active {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.success-msg {
+    color: var(--green);
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.results-card {
+    background: linear-gradient(145deg, var(--bg-card), #233045);
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.result-row.total-profit {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.result-row.small {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.highlight-green { color: var(--green); }
+.highlight-red { color: var(--red); }
+
+.divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 15px 0;
+}
+
+.result-details {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* Брендинг */
+.branding {
+    position: absolute;
+    bottom: 70px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 10px 0;
+}
+
+.branding a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Нижня навігація */
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+}
+
+.nav-item {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    width: 50%;
+    height: 100%;
+    padding: 0;
+}
+
+.nav-item i {
+    margin-bottom: 4px;
+    width: 22px;
+    height: 22px;
+}
+
+.nav-item.active {
+    color: var(--accent);
+}

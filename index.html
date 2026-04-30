@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Таксі Калькулятор</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 id="page-title">Калькулятор поїздки</h1>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Calculator View -->
+            <section id="calculator-view" class="view active">
+                <div class="card">
+                    <h2>Дані замовлення</h2>
+                    <div class="input-group">
+                        <label for="trip-distance">Дистанція поїздки (км)</label>
+                        <input type="number" id="trip-distance" placeholder="Наприклад: 15" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="order-value">Вартість замовлення (грн)</label>
+                        <input type="number" id="order-value" placeholder="Наприклад: 250">
+                    </div>
+                    <div class="input-group">
+                        <label for="commission">Комісія сервісу (%)</label>
+                        <input type="number" id="commission" placeholder="Наприклад: 15" step="0.1">
+                    </div>
+                    <button class="btn-primary" id="btn-calculate">Розрахувати</button>
+                </div>
+
+                <div class="card results-card" id="results-card" style="display: none;">
+                    <h2>Результати</h2>
+                    <div class="result-row total-profit">
+                        <span>Чистий прибуток:</span>
+                        <span id="res-net-profit" class="highlight-green">0 грн</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="result-row">
+                        <span>Загальні витрати:</span>
+                        <span id="res-total-expenses" class="highlight-red">0 грн</span>
+                    </div>
+                    <div class="result-details">
+                        <div class="result-row small">
+                            <span>Комісія:</span>
+                            <span id="res-commission">0 грн</span>
+                        </div>
+                        <div class="result-row small">
+                            <span>Амортизація авто:</span>
+                            <span id="res-amortization">0 грн</span>
+                        </div>
+                        <div class="result-row small">
+                            <span>Витрати на пальне/електрику:</span>
+                            <span id="res-fuel">0 грн</span>
+                        </div>
+                        <div class="result-row small">
+                            <span>Додаткові витрати:</span>
+                            <span id="res-extra">0 грн</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings View -->
+            <section id="settings-view" class="view">
+                <div class="card">
+                    <h2>Параметри автомобіля</h2>
+                    <p class="subtitle">Ці дані зберігаються автоматично</p>
+                    
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="car-value">Вартість автомобіля (грн)</label>
+                            <div class="info-icon-wrapper" tabindex="0">
+                                <i data-lucide="info" class="info-icon"></i>
+                                <div class="tooltip-text">Використовується для розрахунку амортизації з розрахунку, що авто пройде 100 000 км.</div>
+                            </div>
+                        </div>
+                        <input type="number" id="car-value" placeholder="Наприклад: 10000">
+                    </div>
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="consumption">Витрата палива/енергії (на 100 км)</label>
+                            <div class="info-icon-wrapper" tabindex="0">
+                                <i data-lucide="info" class="info-icon"></i>
+                                <div class="tooltip-text">Вкажіть середню витрату пального або електроенергії на 100 км пробігу.</div>
+                            </div>
+                        </div>
+                        <input type="number" id="consumption" placeholder="Наприклад: 8 (л або кВт)" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="fuel-price">Ціна за 1 л палива або 1 кВт (грн)</label>
+                            <div class="info-icon-wrapper" tabindex="0">
+                                <i data-lucide="info" class="info-icon"></i>
+                                <div class="tooltip-text">Вартість одного літра пального або одного кіловата електроенергії.</div>
+                            </div>
+                        </div>
+                        <input type="number" id="fuel-price" placeholder="Наприклад: 55" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="default-commission">Стандартна комісія (%)</label>
+                            <div class="info-icon-wrapper" tabindex="0">
+                                <i data-lucide="info" class="info-icon"></i>
+                                <div class="tooltip-text">Ця комісія буде автоматично підставлятися в калькулятор при кожному розрахунку.</div>
+                            </div>
+                        </div>
+                        <input type="number" id="default-commission" placeholder="За замовчуванням у калькуляторі" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="extra-expenses">Додаткові витрати (на 100 000 км)</label>
+                            <div class="info-icon-wrapper" tabindex="0">
+                                <i data-lucide="info" class="info-icon"></i>
+                                <div class="tooltip-text">Введіть всі орієнтовні витрати на 100 000 км: заміна мастил, можливі ремонти, мийка, килимки, омивач та інші дрібні витрати.</div>
+                            </div>
+                        </div>
+                        <input type="number" id="extra-expenses" placeholder="Наприклад: 50000">
+                    </div>
+                    <button class="btn-secondary" id="btn-save-settings">Зберегти налаштування</button>
+                    <div id="settings-saved-msg" class="success-msg" style="display: none;">Збережено!</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Branding -->
+        <div class="branding">
+            created by <a href="https://t.me/JunoBroono" target="_blank" rel="noopener noreferrer">JunoBroono</a>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="calculator-view">
+                <i data-lucide="calculator"></i>
+                <span>Калькулятор</span>
+            </button>
+            <button class="nav-item" data-target="settings-view">
+                <i data-lucide="settings"></i>
+                <span>Налаштування</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Ініціалізація іконок
+        lucide.createIcons();
+    </script>
+</body>
+</html>
