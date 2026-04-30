@@ -24,8 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let extraExpensesList = [];
 
-    const btnSaveSettings = document.getElementById('btn-save-settings');
-    const settingsSavedMsg = document.getElementById('settings-saved-msg');
     const btnCalculate = document.getElementById('btn-calculate');
     const resultsCard = document.getElementById('results-card');
 
@@ -57,8 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Збереження налаштувань
-    btnSaveSettings.addEventListener('click', () => {
+    // Збереження налаштувань (Автоматичне)
+    function saveSettings() {
         const settings = {
             carValue: parseFloat(carValueInput.value) || 0,
             consumption: parseFloat(consumptionInput.value) || 0,
@@ -66,12 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
             extraExpensesList: extraExpensesList
         };
         localStorage.setItem('taxiSettings', JSON.stringify(settings));
+    }
 
-        // Показ повідомлення про збереження
-        settingsSavedMsg.style.display = 'block';
-        setTimeout(() => {
-            settingsSavedMsg.style.display = 'none';
-        }, 2000);
+    [carValueInput, consumptionInput, fuelPriceInput].forEach(input => {
+        input.addEventListener('input', saveSettings);
     });
 
     // Управління списком додаткових витрат
@@ -111,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', (e) => {
                 const id = e.currentTarget.getAttribute('data-id');
                 extraExpensesList = extraExpensesList.filter(exp => exp.id != id);
+                saveSettings();
                 renderExpenses();
             });
         });
@@ -119,7 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('change', (e) => {
                 const id = e.target.getAttribute('data-id');
                 const exp = extraExpensesList.find(exp => exp.id == id);
-                if (exp) exp.name = e.target.value;
+                if (exp) {
+                    exp.name = e.target.value;
+                    saveSettings();
+                }
             });
         });
 
@@ -127,8 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', (e) => {
                 const id = e.target.getAttribute('data-id');
                 const exp = extraExpensesList.find(exp => exp.id == id);
-                if (exp) exp.cost = e.target.value;
-                updateSettingsTotalExtra();
+                if (exp) {
+                    exp.cost = e.target.value;
+                    updateSettingsTotalExtra();
+                    saveSettings();
+                }
             });
         });
 
@@ -136,8 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', (e) => {
                 const id = e.target.getAttribute('data-id');
                 const exp = extraExpensesList.find(exp => exp.id == id);
-                if (exp) exp.distance = e.target.value;
-                updateSettingsTotalExtra();
+                if (exp) {
+                    exp.distance = e.target.value;
+                    updateSettingsTotalExtra();
+                    saveSettings();
+                }
             });
         });
 
@@ -165,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cost: '',
             distance: ''
         });
+        saveSettings();
         renderExpenses();
     });
 
@@ -259,6 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         { id: Date.now() + 3, name: 'Омивач', cost: 300, distance: 2000 },
                         { id: Date.now() + 4, name: 'Ходова частина', cost: 15000, distance: 50000 }
                     ];
+                    saveSettings();
                 }
             } catch (e) {
                 console.error('Помилка завантаження налаштувань', e);
@@ -266,11 +274,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Якщо налаштувань ще немає взагалі, також ставимо стандартні
             extraExpensesList = [
-                { id: Date.now() + 1, name: 'Мийка авто', cost: 200, distance: 100 },
+                { id: Date.now() + 1, name: 'Мийка авто', cost: 700, distance: 500 },
                 { id: Date.now() + 2, name: 'Мастила та фільтри', cost: 2000, distance: 10000 },
-                { id: Date.now() + 3, name: 'Омивач', cost: 150, distance: 2000 },
+                { id: Date.now() + 3, name: 'Омивач', cost: 300, distance: 2000 },
                 { id: Date.now() + 4, name: 'Ходова частина', cost: 15000, distance: 50000 }
             ];
+            saveSettings();
         }
         renderExpenses();
     }
