@@ -332,3 +332,120 @@ button {
 .nav-item.active {
     color: var(--accent);
 }
+
+/* Додані стилі для нових елементів калькулятора та налаштувань */
+.input-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.input-row .input-group {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    cursor: pointer;
+    user-select: none;
+}
+
+.expenses-section {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 20px;
+}
+
+.expenses-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.expense-item {
+    background-color: rgba(15, 23, 42, 0.5);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.expense-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.expense-header input {
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 5px;
+    width: calc(100% - 40px);
+    border-radius: 0;
+}
+
+.expense-header input:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+    box-shadow: none;
+}
+
+.delete-expense-btn {
+    background: transparent;
+    border: none;
+    color: var(--red);
+    cursor: pointer;
+    padding: 5px;
+    width: auto;
+    opacity: 0.8;
+}
+
+.delete-expense-btn:hover {
+    opacity: 1;
+    background: transparent;
+}
+
+.expense-fields {
+    display: flex;
+    gap: 10px;
+}
+
+.expense-fields .input-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.expense-fields label {
+    font-size: 0.8rem;
+}
+
+.add-expense-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 5px;
+}
